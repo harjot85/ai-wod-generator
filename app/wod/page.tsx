@@ -1,10 +1,11 @@
 "use client";
+import Button from "@mui/material/Button";
 import Equipment from "../components/equipment/equipment";
 import Preferences from "../components/preferences/preferences";
 import Stats from "../components/stats/stats";
 import { useState } from "react";
 
-export default function Generate() {
+export default function GenerateWOD() {
   const [age, setAge] = useState(0);
   const [weight, setWeight] = useState(0);
   const [gender, setGender] = useState("");
@@ -50,7 +51,7 @@ export default function Generate() {
       <Preferences handlePreferencesChange={handlePreferencesChange} />
 
       <div>
-        <button onClick={finalPrompt}>Generate</button>
+        <Button variant="contained" color="success" onClick={finalPrompt}>Generate</Button>
       </div>
     </>
   );
