@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Equipment from "../equipment/equipment";
 import Preferences from "../preferences/preferences";
 import Stats from "../stats/stats";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { EquipmentType } from "../equipment/types";
 
 function ClientWrapper() {
@@ -14,6 +14,11 @@ function ClientWrapper() {
   const [equipmentSelected, setEquipmentSelected] = useState("");
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
   const [preferences, setPreferences] = useState("");
+
+  const [result, setResult] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isPending, startTransition] = useTransition();
 
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAge(parseInt(event.target.value));
@@ -41,16 +46,48 @@ function ClientWrapper() {
     setPreferences(event.target.value);
   };
 
-  const finalPrompt = () => {
-    console.log(
-      "finalPrompt",
-      age,
-      weight,
-      gender,
-      experienceLevel,
-      equipmentSelected,
-      preferences
-    );
+  const finalPrompt = async () => {
+    // Build your input into one prompt string
+    const prompt = `
+      Age: ${age}
+      Weight: ${weight}
+      Gender: ${gender}
+      Experience Level: ${experienceLevel}
+      Equipment: ${equipmentSelected}
+      Preferences: ${preferences}
+      Create a personalized workout plan based on these details.
+    `;
+
+    setIsLoading(true);
+    setResult("");
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ goal: prompt }),
+    });
+
+    if (!response.body) {
+      setResult("No response received.");
+      setIsLoading(false);
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      const chunkText = decoder.decode(value);
+      startTransition(() => {
+        setResult((prev) => prev + chunkText);
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+
+    setIsLoading(false);
   };
 
   const getEquipment = async () => {
@@ -58,7 +95,7 @@ function ClientWrapper() {
       `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/equipment`
     );
     const equipment = await response.json();
-    console.log("E:", equipment);
+
     return equipment;
   };
   useEffect(() => {
@@ -71,6 +108,7 @@ function ClientWrapper() {
 
   return (
     <>
+      <h1>Generate Your Workout</h1>
       <Stats
         handleAgeChange={handleAgeChange}
         handleWeightChange={handleWeightChange}
@@ -87,6 +125,16 @@ function ClientWrapper() {
         <Button variant="contained" color="success" onClick={finalPrompt}>
           Generate
         </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setResult("")}
+        >
+          Clear
+        </Button>
+      </div>
+      <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
+        {isLoading ? "Generating..." : result || "Your plan will appear here"}
       </div>
     </>
   );
