@@ -40,7 +40,7 @@ function ClientWrapper() {
     setEquipmentSelected(event.target.value);
   };
   const handlePreferencesChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setPreferences(event.target.value);
   };
@@ -106,38 +106,37 @@ function ClientWrapper() {
   }, []);
 
   return (
-    <>
-      <h1>Generate Your Workout</h1>
+    <div className="flex flex-col gap-4 w-300">
+      <div className="flex justify-center w-full">
+        <h1 className="text-2xl font-bold">Generate Your Workout</h1>
+      </div>
+      <div className="divider w-full" />
       <Stats
         handleAgeChange={handleAgeChange}
         handleWeightChange={handleWeightChange}
         handleGenderChange={handleGenderChange}
         handleExperienceLevelChange={handleExperienceLevelChange}
       />
+      <div className="divider" />
       <Equipment
         equipment={equipment}
         handleEquipmentChange={handleEquipmentChange}
       />
+      <div className="divider" />
       <Preferences handlePreferencesChange={handlePreferencesChange} />
-
-      <div className="flex gap-7">
-        <button 
-          className="btn btn-primary"
-          onClick={finalPrompt}
-        >
-          Generate
+      <div className="divider" />
+      <div className="flex gap-7 justify-center">
+        <button className="btn btn-primary w-100 " onClick={finalPrompt}>
+          Generate with AI
         </button>
-        <button
-          className="btn btn-outline"
-          onClick={() => setResult("")}
-        >
+        <button className="btn btn-outline glass w-30" onClick={() => setResult("")}>
           Clear
         </button>
       </div>
       <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
         {isLoading ? "Generating..." : result || "Your plan will appear here"}
       </div>
-    </>
+    </div>
   );
 }
 export default ClientWrapper;

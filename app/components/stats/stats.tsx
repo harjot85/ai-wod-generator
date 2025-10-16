@@ -13,12 +13,31 @@ export default function Stats({
   ) => void;
 }) {
   return (
-    <div className="flex flex-row gap-2">
-      Your Age: <input type="number" onChange={handleAgeChange} />
-      Your Weight: <input type="number" onChange={handleWeightChange} />
-      Your Gender: <input type="text" onChange={handleGenderChange} />
-      Your Experience Level:{" "}
-      <input type="text" onChange={handleExperienceLevelChange} />
+    <div className="flex flex-col  gap-2">
+      <label htmlFor="age">Your Age</label>
+      <input
+        type="number"
+        className="input input-bordered"
+        onChange={handleAgeChange}
+      />
+      <label htmlFor="weight">Your Weight</label>
+      <input
+        type="number"
+        className="input input-bordered"
+        onChange={handleWeightChange}
+      />
+      <label htmlFor="gender">Your Gender</label>
+      <input
+        type="text"
+        className="input input-bordered"
+        onChange={handleGenderChange}
+      />
+      <label htmlFor="experienceLevel">Your Experience Level</label>
+      <input
+        type="text"
+        className="input input-bordered"
+        onChange={handleExperienceLevelChange}
+      />
     </div>
   );
 }
