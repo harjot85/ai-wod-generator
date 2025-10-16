@@ -7,19 +7,19 @@ const equipmentList = [
     id: 1,
     name: "Dumbbell",
     image:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      "https://cdn.pixabay.com/photo/2020/04/07/16/05/fitness-5013986_1280.jpg",
   },
   {
     id: 2,
     name: "Barbell",
     image:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2070",
   },
   {
     id: 3,
     name: "Kettlebell",
     image:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+      "https://images.unsplash.com/photo-1562771242-7d077824055a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2070",
   },
 ];
 const Equipment = ({
@@ -53,7 +53,7 @@ const EquipmentCard = ({ equipment }: { equipment: EquipmentType }) => {
     <div className="card bg-base-100 w-60 shadow-sm">
       <figure className="px-4 pt-4">
         <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+          src={equipment.image}
           alt="Shoes"
           className="rounded-xl"
         />
