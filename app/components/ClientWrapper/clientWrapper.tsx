@@ -1,5 +1,4 @@
 "use client";
-import Button from "@mui/material/Button";
 import Equipment from "../equipment/equipment";
 import Preferences from "../preferences/preferences";
 import Stats from "../stats/stats";
@@ -122,16 +121,33 @@ function ClientWrapper() {
       <Preferences handlePreferencesChange={handlePreferencesChange} />
 
       <div>
-        <Button variant="contained" color="success" onClick={finalPrompt}>
+        <button 
+          style={{ 
+            backgroundColor: '#4caf50', 
+            color: 'white', 
+            padding: '10px 20px', 
+            border: 'none', 
+            borderRadius: '4px',
+            cursor: 'pointer',
+            marginRight: '10px'
+          }} 
+          onClick={finalPrompt}
+        >
           Generate
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
+        </button>
+        <button
+          style={{ 
+            backgroundColor: 'transparent', 
+            color: '#2196f3', 
+            padding: '10px 20px', 
+            border: '1px solid #2196f3', 
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
           onClick={() => setResult("")}
         >
           Clear
-        </Button>
+        </button>
       </div>
       <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
         {isLoading ? "Generating..." : result || "Your plan will appear here"}
