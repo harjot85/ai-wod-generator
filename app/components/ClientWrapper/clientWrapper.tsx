@@ -120,7 +120,7 @@ function ClientWrapper() {
       />
       <Preferences handlePreferencesChange={handlePreferencesChange} />
 
-      <div>
+      <div className="flex gap-7">
         <button 
           className="btn btn-primary"
           onClick={finalPrompt}
@@ -128,14 +128,7 @@ function ClientWrapper() {
           Generate
         </button>
         <button
-          style={{ 
-            backgroundColor: 'transparent', 
-            color: '#2196f3', 
-            padding: '10px 20px', 
-            border: '1px solid #2196f3', 
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
+          className="btn btn-outline"
           onClick={() => setResult("")}
         >
           Clear
