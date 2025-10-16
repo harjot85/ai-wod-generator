@@ -122,15 +122,7 @@ function ClientWrapper() {
 
       <div>
         <button 
-          style={{ 
-            backgroundColor: '#4caf50', 
-            color: 'white', 
-            padding: '10px 20px', 
-            border: 'none', 
-            borderRadius: '4px',
-            cursor: 'pointer',
-            marginRight: '10px'
-          }} 
+          className="btn btn-primary"
           onClick={finalPrompt}
         >
           Generate
