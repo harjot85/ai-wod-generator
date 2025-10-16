@@ -2,7 +2,7 @@
 import Equipment from "../equipment/equipment";
 import Preferences from "../preferences/preferences";
 import Stats from "../stats/stats";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { EquipmentType } from "../equipment/types";
 
 function ClientWrapper() {
@@ -10,8 +10,8 @@ function ClientWrapper() {
   const [weight, setWeight] = useState(0);
   const [gender, setGender] = useState("");
   const [experienceLevel, setExperienceLevel] = useState("");
-  const [equipmentSelected, setEquipmentSelected] = useState("");
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+
   const [preferences, setPreferences] = useState("");
 
   const [result, setResult] = useState("");
@@ -34,37 +34,60 @@ function ClientWrapper() {
     setExperienceLevel(event.target.value);
   };
 
-  const handleEquipmentChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setEquipmentSelected(event.target.value);
-  };
   const handlePreferencesChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setPreferences(event.target.value);
   };
 
+  const handleEquipmentChange = (updatedList: EquipmentType[]) => {
+    setEquipment(updatedList);
+  };
+
   const finalPrompt = async () => {
     // Build your input into one prompt string
+
     const prompt = `
       Age: ${age}
       Weight: ${weight}
       Gender: ${gender}
       Experience Level: ${experienceLevel}
-      Equipment: ${equipmentSelected}
+      Equipment: ${equipment.map((e) => e.name)}
       Preferences: ${preferences}
       Create a personalized workout plan based on these details.
     `;
 
+    console.log("Prompt: ", prompt);
+
     setIsLoading(true);
     setResult("");
 
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ goal: prompt }),
-    });
+    //const response = await fetch("/api/generate", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ goal: prompt }),
+    // });
+
+    // Fake minimal response for testing
+    const response = {
+      body: {
+        getReader() {
+          let done = false;
+          return {
+            async read() {
+              if (done) return { value: undefined, done: true };
+              done = true;
+              return {
+                value: new TextEncoder().encode(
+                  "Here is your personalized workout plan!"
+                ),
+                done: false,
+              };
+            },
+          };
+        },
+      },
+    };
 
     if (!response.body) {
       setResult("No response received.");
@@ -89,22 +112,6 @@ function ClientWrapper() {
     setIsLoading(false);
   };
 
-  const getEquipment = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/equipment`
-    );
-    const equipment = await response.json();
-
-    return equipment;
-  };
-  useEffect(() => {
-    const fetchEquipment = async () => {
-      const equipment = await getEquipment();
-      setEquipment(equipment);
-    };
-    fetchEquipment();
-  }, []);
-
   return (
     <div className="flex flex-col gap-4 w-300">
       <div className="flex justify-center w-full">
@@ -120,7 +127,7 @@ function ClientWrapper() {
       <div className="divider" />
       <Equipment
         equipment={equipment}
-        handleEquipmentChange={handleEquipmentChange}
+        onEquipmentChange={handleEquipmentChange}
       />
       <div className="divider" />
       <Preferences handlePreferencesChange={handlePreferencesChange} />
@@ -129,7 +136,10 @@ function ClientWrapper() {
         <button className="btn btn-primary w-100 " onClick={finalPrompt}>
           Generate with AI
         </button>
-        <button className="btn btn-outline glass w-30" onClick={() => setResult("")}>
+        <button
+          className="btn btn-outline glass w-30"
+          onClick={() => setResult("")}
+        >
           Clear
         </button>
       </div>

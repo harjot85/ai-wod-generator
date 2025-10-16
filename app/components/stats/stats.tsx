@@ -14,6 +14,9 @@ export default function Stats({
 }) {
   return (
     <div className="flex flex-col  gap-2">
+      <label className="font-medium mb-2" htmlFor="preferences">
+        Your Stats
+      </label>
       <label htmlFor="age">Your Age</label>
       <input
         type="number"
