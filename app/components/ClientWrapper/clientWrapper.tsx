@@ -19,15 +19,27 @@ function ClientWrapper() {
 
   const [isPending, startTransition] = useTransition();
 
+  const [selectedGender, setSelectedGender] = useState("");
+
+  const handleGenderSelect = (gender: string) => {
+    setSelectedGender(gender);
+    setGender("");
+
+  };
+  const handleOtherGenderChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedGender(event.target.value);
+    setGender(event.target.value);
+  };
+
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAge(parseInt(event.target.value));
   };
   const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWeight(parseInt(event.target.value));
   };
-  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(event.target.value);
-  };
+
   const handleExperienceLevelChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -50,7 +62,7 @@ function ClientWrapper() {
     const prompt = `
       Age: ${age}
       Weight: ${weight}
-      Gender: ${gender}
+      Gender: ${selectedGender}
       Experience Level: ${experienceLevel}
       Equipment: ${equipment.map((e) => e.name)}
       Preferences: ${preferences}
@@ -121,7 +133,9 @@ function ClientWrapper() {
       <Stats
         handleAgeChange={handleAgeChange}
         handleWeightChange={handleWeightChange}
-        handleGenderChange={handleGenderChange}
+        selectedGender={selectedGender}
+        handleGenderSelect={handleGenderSelect}
+        handleOtherGenderChange={handleOtherGenderChange}
         handleExperienceLevelChange={handleExperienceLevelChange}
       />
       <div className="divider" />
