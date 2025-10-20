@@ -63,14 +63,15 @@ export default function Stats({
         >
           Female
         </button>
+
+         <label className="mx-4 flex items-center">Other</label>
+        <input
+          ref={otherGenderRef}
+          type="text"
+          className="input input-bordered"
+          onChange={handleOtherGenderChange}
+        />
       </div>
-      <label className="">Other</label>
-      <input
-        ref={otherGenderRef}
-        type="text"
-        className="input input-bordered"
-        onChange={handleOtherGenderChange}
-      />
       <label htmlFor="experienceLevel">Your Experience Level</label>
       <input
         type="text"
