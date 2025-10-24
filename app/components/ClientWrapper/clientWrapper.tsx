@@ -131,7 +131,7 @@ function ClientWrapper() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-300">
+    <div className="flex flex-col gap-4 w-200">
       <div className="flex justify-center w-full">
         <h1 className="text-2xl font-bold">Generate Your Workout</h1>
       </div>
