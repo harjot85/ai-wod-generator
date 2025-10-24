@@ -8,6 +8,7 @@ import { EquipmentType } from "../equipment/types";
 function ClientWrapper() {
   const [age, setAge] = useState(0);
   const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState("");
   const [gender, setGender] = useState("");
   const [experienceLevel, setExperienceLevel] = useState("");
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
@@ -24,7 +25,6 @@ function ClientWrapper() {
   const handleGenderSelect = (gender: string) => {
     setSelectedGender(gender);
     setGender("");
-
   };
   const handleOtherGenderChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -36,8 +36,13 @@ function ClientWrapper() {
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAge(parseInt(event.target.value));
   };
+
   const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWeight(parseInt(event.target.value));
+  };
+
+  const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHeight(event.target.value);
   };
 
   const handleExperienceLevelChange = (
@@ -62,6 +67,7 @@ function ClientWrapper() {
     const prompt = `
       Age: ${age}
       Weight: ${weight}
+      Height: ${height}
       Gender: ${selectedGender}
       Experience Level: ${experienceLevel}
       Equipment: ${equipment.map((e) => e.name)}
@@ -133,6 +139,7 @@ function ClientWrapper() {
       <Stats
         handleAgeChange={handleAgeChange}
         handleWeightChange={handleWeightChange}
+        handleHeightChange={handleHeightChange}
         selectedGender={selectedGender}
         handleGenderSelect={handleGenderSelect}
         handleOtherGenderChange={handleOtherGenderChange}

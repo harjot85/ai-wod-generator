@@ -5,6 +5,7 @@ import { useRef } from "react";
 export default function Stats({
   handleAgeChange,
   handleWeightChange,
+  handleHeightChange,
   handleOtherGenderChange,
   handleGenderSelect,
   handleExperienceLevelChange,
@@ -12,6 +13,7 @@ export default function Stats({
 }: {
   handleAgeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleWeightChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleHeightChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleOtherGenderChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleGenderSelect: (gender: string) => void;
   handleExperienceLevelChange: (
@@ -44,6 +46,12 @@ export default function Stats({
         type="number"
         className="input input-bordered"
         onChange={handleWeightChange}
+      />
+      <label htmlFor="weight">Your Height</label>
+      <input
+        type="text"
+        className="input input-bordered"
+        onChange={handleHeightChange}
       />
       <label htmlFor="gender">Your Gender</label>
       <div className="flex flex-row">
