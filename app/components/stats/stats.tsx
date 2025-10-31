@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import z from "zod";
 
 export default function Stats({
   handleAgeChange,
@@ -29,6 +30,7 @@ export default function Stats({
       otherGenderRef.current.value = "";
     }
   };
+
 
   return (
     <div className="flex flex-col  gap-2">
@@ -72,7 +74,7 @@ export default function Stats({
           Female
         </button>
 
-         <label className="mx-4 flex items-center">Other</label>
+        <label className="mx-4 flex items-center">Other</label>
         <input
           ref={otherGenderRef}
           type="text"

@@ -4,6 +4,7 @@ import Preferences from "../preferences/preferences";
 import Stats from "../stats/stats";
 import { useState, useTransition } from "react";
 import { EquipmentType } from "../equipment/types";
+import z from "zod";
 
 function ClientWrapper() {
   const [age, setAge] = useState(0);
@@ -33,12 +34,34 @@ function ClientWrapper() {
     setGender(event.target.value);
   };
 
+  // Single source of truth for all stats validation
+  const StatsSchema = z.object({
+    age: z.number().min(14).max(100),
+    weight: z.number().min(25).max(300),
+  });
+
+  // Use .shape to access individual field validators (avoids duplication)
+  const ageSchema = StatsSchema.shape.age;
+  const weightSchema = StatsSchema.shape.weight;
+
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(parseInt(event.target.value));
+    const age = parseInt(event.target.value);
+    const parseResult = ageSchema.safeParse(age);
+    console.log("Age", parseResult)
+
+    if (parseResult.success) {
+      setAge(age);
+    }
   };
 
   const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWeight(parseInt(event.target.value));
+    const weight = parseInt(event.target.value);
+    const parseResult = weightSchema.safeParse(weight);
+    console.log("weight", parseResult)
+
+    if (parseResult.success) {
+      setWeight(weight);
+    }
   };
 
   const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
