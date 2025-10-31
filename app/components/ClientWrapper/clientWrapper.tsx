@@ -11,7 +11,10 @@ function ClientWrapper() {
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState("");
   const [gender, setGender] = useState("");
+
   const [experienceLevel, setExperienceLevel] = useState("");
+  const [selectedExperienceLevel, setSelectedExperienceLevel] = useState("");
+
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
 
   const [preferences, setPreferences] = useState("");
@@ -34,6 +37,11 @@ function ClientWrapper() {
     setGender(event.target.value);
   };
 
+  const handleExperienceLevelChange = (experienceLevel: string) => {
+    console.log(experienceLevel)
+    setExperienceLevel(experienceLevel);
+  };
+
   // Single source of truth for all stats validation
   const StatsSchema = z.object({
     age: z.number().min(14).max(100),
@@ -47,7 +55,7 @@ function ClientWrapper() {
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const age = parseInt(event.target.value);
     const parseResult = ageSchema.safeParse(age);
-    console.log("Age", parseResult)
+    console.log("Age", parseResult);
 
     if (parseResult.success) {
       setAge(age);
@@ -57,7 +65,7 @@ function ClientWrapper() {
   const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const weight = parseInt(event.target.value);
     const parseResult = weightSchema.safeParse(weight);
-    console.log("weight", parseResult)
+    console.log("weight", parseResult);
 
     if (parseResult.success) {
       setWeight(weight);
@@ -66,12 +74,6 @@ function ClientWrapper() {
 
   const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHeight(event.target.value);
-  };
-
-  const handleExperienceLevelChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setExperienceLevel(event.target.value);
   };
 
   const handlePreferencesChange = (
@@ -164,6 +166,7 @@ function ClientWrapper() {
         handleWeightChange={handleWeightChange}
         handleHeightChange={handleHeightChange}
         selectedGender={selectedGender}
+        selectedExperienceLevel={experienceLevel}
         handleGenderSelect={handleGenderSelect}
         handleOtherGenderChange={handleOtherGenderChange}
         handleExperienceLevelChange={handleExperienceLevelChange}

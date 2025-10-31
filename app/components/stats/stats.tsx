@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import z from "zod";
 
 export default function Stats({
   handleAgeChange,
@@ -11,16 +10,16 @@ export default function Stats({
   handleGenderSelect,
   handleExperienceLevelChange,
   selectedGender,
+  selectedExperienceLevel
 }: {
   handleAgeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleWeightChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleHeightChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleOtherGenderChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleGenderSelect: (gender: string) => void;
-  handleExperienceLevelChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  handleExperienceLevelChange: (experienceLevel: string) => void;
   selectedGender?: string;
+  selectedExperienceLevel?: string;
 }) {
   const otherGenderRef = useRef<HTMLInputElement>(null);
 
@@ -31,6 +30,9 @@ export default function Stats({
     }
   };
 
+  const handleExperienceChange = (experienceLevel: string) => {
+    handleExperienceLevelChange(experienceLevel);
+  };
 
   return (
     <div className="flex flex-col  gap-2">
@@ -83,11 +85,32 @@ export default function Stats({
         />
       </div>
       <label htmlFor="experienceLevel">Your Experience Level</label>
-      <input
-        type="text"
-        className="input input-bordered"
-        onChange={handleExperienceLevelChange}
-      />
+      <div className="flex flex-row">
+        <button
+          className={`basis-36 btn ${
+            selectedExperienceLevel === "beginner" ? "" : "btn-outline"
+          } btn-success mr-4`}
+          onClick={() => handleExperienceChange("beginner")}
+        >
+          Beginner
+        </button>
+        <button
+          className={`basis-36 btn ${
+            selectedExperienceLevel === "intermediate" ? "" : "btn-outline"
+          } btn-success mr-4`}
+          onClick={() => handleExperienceChange("intermediate")}
+        >
+          Intermediate
+        </button>
+        <button
+          className={`basis-36 btn ${
+            selectedExperienceLevel === "advanced" ? "" : "btn-outline"
+          } btn-success mr-4`}
+          onClick={() => handleExperienceChange("advanced")}
+        >
+          Advanced
+        </button>
+      </div>
     </div>
   );
 }
